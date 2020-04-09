@@ -9,20 +9,27 @@
 
   </head>
   <body style="background-color: black;">
-    <script src="sketch.js"></script>
     <div style="position: absolute; right: 10px; color: chartreuse;">
-      <h1>CONTROLS</h1>
+      <h1 class="label">CONTROLS</h1>
       <div>
         <button onclick="toggleEM()">
-          EM INTERFERENCE
+          EM_INTERFERENCE
         </button>
       </div>
       <div>
         <button onclick="toggleDD()">
-          DISPLAY DISTORTION
+          DISPLAY_DISTORTION
         </button>
       </div>
-    </div>
+      <textArea rows="6" id='textinput' onkeyup="setText()">
+YOUR
+TEXT
+HERE
 
+
+      </textArea>
+    </div>
+    
+    <script src="sketch.js"></script>
   </body>
 </html>

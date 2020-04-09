@@ -12,6 +12,7 @@ const textPadding = 20;
 emShaderActive = true;
 ddShaderActive = true;
 const hudGreen = [15, 252, 3];
+let textToDisplay = '';
 function toggleEM() {
     emShaderActive = !emShaderActive;
 }
@@ -130,13 +131,22 @@ function barWidget(target) {
     }
     target.rect(textPadding, maxHeight + textPadding + 5, barCount * (barWidth + barPadding) - barPadding, 5);
 }
+function setText() {
+    const inputElement = document.getElementById('textinput');
+    console.log(inputElement.value);
+    textToDisplay = inputElement.value;
+}
+setText();
 function draw() {
     let target = pg0;
     pg0.push();
+    pg0.background(51);
     pg0.image(cam, 0, 0, width, width * cam.height / cam.width);
-    screenText('YOUR', pg0, 'LEFT', 'BOTTOM');
-    screenText('TEXT', pg0, 'CENTER', 'BOTTOM');
-    screenText('HERE', pg0, 'RIGHT', 'BOTTOM');
+    // screenText('YOUR', pg0, 'LEFT', 'BOTTOM');
+    if (textToDisplay) {
+        screenText(textToDisplay, pg0, 'CENTER', 'BOTTOM');
+    }
+    // screenText('HERE', pg0, 'RIGHT', 'BOTTOM');
     barWidget(pg0);
     radarWidget(pg0);
     pg0.pop();

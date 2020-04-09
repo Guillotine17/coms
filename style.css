@@ -1,8 +1,18 @@
+
+@font-face {
+  font-family: alienEncounters;
+  src: url(./assets/SFAlienEncountersSolid.ttf);
+}
+
+
 html, body {
-    margin: 0;
-    padding: 0;
-  }
-  canvas {
-    display: block;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: alienEncounters;
+}
+canvas {
+  display: block;
+}
+button {
+  font-family: alienEncounters;
+}

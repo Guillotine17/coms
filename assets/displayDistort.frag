@@ -35,11 +35,11 @@ uniform float iTime;
 
 // change these values to 0.0 to turn off individual effects
 float vertJerkOpt = 1.0;
-float vertMovementOpt = 1.0;
+float vertMovementOpt = 0.5;
 float bottomStaticOpt = 1.0;
 float scalinesOpt = 2.0;
 float rgbOffsetOpt = 1.0;
-float horzFuzzOpt = 4.0;
+float horzFuzzOpt = 2.5;
 
 // Noise generation functions borrowed from: 
 // https://github.com/ashima/webgl-noise/blob/master/src/noise2D.glsl

@@ -9,8 +9,8 @@ let cam;
 let fontVCR;
 let pg0, pg1, pg2;
 const textPadding = 20;
-emShaderActive = false;
-ddShaderActive = false;
+emShaderActive = true;
+ddShaderActive = true;
 const hudGreen = [15, 252, 3];
 function toggleEM() {
     emShaderActive = !emShaderActive;

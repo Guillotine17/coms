@@ -96,9 +96,9 @@ function draw() {
     let target = pg0;
     pg0.push();
     pg0.image(cam, 0, 0, width, width * cam.height / cam.width);
-    screenText('ONLY', pg0, 'LEFT', 'BOTTOM');
-    screenText('GOD', pg0, 'CENTER', 'BOTTOM');
-    screenText('FORGIVES', pg0, 'RIGHT', 'BOTTOM');
+    screenText('YOUR', pg0, 'LEFT', 'BOTTOM');
+    screenText('TEXT', pg0, 'CENTER', 'BOTTOM');
+    screenText('HERE', pg0, 'RIGHT', 'BOTTOM');
     barWidget(pg0);
     pg0.pop();
 

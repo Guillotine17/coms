@@ -87,10 +87,10 @@ function barWidget(target) {
     const milli = millis();
     const speeds = [1000, 802, 600, 300];
     for (let index = 0; index <= barCount; index++) {
-        actualHeight = (Math.sin(milli/ speeds[index]) + 1) / 2 * maxHeight;
+        actualHeight = (Math.sin(milli / speeds[index]) + 1) / 2 * maxHeight;
         target.rect(textPadding + index * (barWidth + barPadding), maxHeight - actualHeight + textPadding, barWidth, actualHeight);
     }
-    target.rect(textPadding, maxHeight+textPadding+barPadding, barCount* (barWidth+barPadding), barPadding);
+    target.rect(textPadding, maxHeight + textPadding + 5, barCount * (barWidth + barPadding) - barPadding, 5);
 }
 function draw() {
     let target = pg0;
@@ -104,14 +104,14 @@ function draw() {
 
     if (emShaderActive !== undefined && emShaderActive) {
         emShader.setUniform('tex0', target);
-        emShader.setUniform("iTime", millis() / 1000.0);
+        emShader.setUniform('iTime', millis() / 1000.0);
         pg1.shader(emShader);
         pg1.rect(0, 0, width, height);
         target = pg1;
     }
     if (ddShaderActive !== undefined && ddShaderActive) {
         ddShader.setUniform('tex0', target);
-        ddShader.setUniform("iTime", millis() / 1000.0);
+        ddShader.setUniform('iTime', millis() / 1000.0);
         pg2.shader(ddShader);
         pg2.rect(0, 0, width, height);
         target = pg2;
@@ -123,6 +123,4 @@ function draw() {
     // rect(0,0,width,height);
     image(target, -width / 2, -height / 2); // webGL mode requires weird offset parameters
     // image(pg2, 0, height / 2, img.width / 2, img.height / 2);
-
-
 }

@@ -9,8 +9,9 @@ let cam;
 let fontVCR;
 let pg0, pg1, pg2;
 const textPadding = 20;
-emShaderActive = true;
-ddShaderActive = true;
+emShaderActive = false;
+ddShaderActive = false;
+const hudGreen = [15, 252, 3];
 function toggleEM() {
     emShaderActive = !emShaderActive;
 }
@@ -38,7 +39,7 @@ function setup() {
     pg0.textAlign(RIGHT);
     pg0.textFont(fontVCR);
     pg0.textSize(70);
-    pg0.fill(15, 252, 3);
+    pg0.fill(...hudGreen);
     cam.hide();
 }
 function screenText(textParams, target, horizontalLocation, verticalLocation) {
@@ -85,30 +86,35 @@ function screenText(textParams, target, horizontalLocation, verticalLocation) {
     target.pop();
 }
 function radarWidget(target) {
+    const radarWidth = 200;
+
     target.push();
     // target.rectMode(CENTER);
     target.noFill();
-    target.stroke(15, 252, 3);
+    target.stroke(...hudGreen);
     target.translate(target.width - 110, 110);
-    target.circle(0, 0, 200);
+    for (let radius = radarWidth; radius > 0; radius -= 50) {
+        target.circle(0, 0, radius);
+    }
     target.circle(0, 0, 150);
     target.circle(0, 0, 100);
     target.circle(0, 0, 50);
     // target.circle(0, 0, 10);
-    target.fill(15, 252, 3);
+    target.fill(...hudGreen);
     target.triangle(0, -10, -8, 8, 8, 8);
     target.noFill();
     const pulseRadius = (millis() / 7 % 500);
-    if (pulseRadius <= 200) {
+    if (pulseRadius <= radarWidth) {
         target.circle(0, 0, pulseRadius);
     }
     target.angleMode(DEGREES);
     target.rotate((millis() / 100) % 360);
-    // target.translate(p5.Vector.fromAngle(millis() / 1000, 40));
-
-    target.line(0, 0, 0, 100);
+    for (let lineAlpha = 0; lineAlpha <= 256; lineAlpha += 10) {
+        target.stroke(...hudGreen, lineAlpha);
+        target.rotate(1);
+        target.line(0, 0, 0, radarWidth/2);
+    }
     target.pop();
-
 }
 function barWidget(target) {
     const maxHeight = 70;

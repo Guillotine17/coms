@@ -11,6 +11,12 @@ let pg0, pg1, pg2;
 const textPadding = 20;
 emShaderActive = true;
 ddShaderActive = true;
+function toggleEM() {
+    emShaderActive = !emShaderActive;
+}
+function toggleDD() {
+    ddShaderActive = !ddShaderActive;
+}
 function preload() {
     // load the shader
     fontVCR = loadFont('assets/VCR_OSD_MONO_1.001.ttf');
@@ -78,6 +84,32 @@ function screenText(textParams, target, horizontalLocation, verticalLocation) {
     target.text(textParams, textX, textY);
     target.pop();
 }
+function radarWidget(target) {
+    target.push();
+    // target.rectMode(CENTER);
+    target.noFill();
+    target.stroke(15, 252, 3);
+    target.translate(target.width - 110, 110);
+    target.circle(0, 0, 200);
+    target.circle(0, 0, 150);
+    target.circle(0, 0, 100);
+    target.circle(0, 0, 50);
+    // target.circle(0, 0, 10);
+    target.fill(15, 252, 3);
+    target.triangle(0, -10, -8, 8, 8, 8);
+    target.noFill();
+    const pulseRadius = (millis() / 7 % 500);
+    if (pulseRadius <= 200) {
+        target.circle(0, 0, pulseRadius);
+    }
+    target.angleMode(DEGREES);
+    target.rotate((millis() / 100) % 360);
+    // target.translate(p5.Vector.fromAngle(millis() / 1000, 40));
+
+    target.line(0, 0, 0, 100);
+    target.pop();
+
+}
 function barWidget(target) {
     const maxHeight = 70;
     const barWidth = 20;
@@ -100,6 +132,7 @@ function draw() {
     screenText('TEXT', pg0, 'CENTER', 'BOTTOM');
     screenText('HERE', pg0, 'RIGHT', 'BOTTOM');
     barWidget(pg0);
+    radarWidget(pg0);
     pg0.pop();
 
     if (emShaderActive !== undefined && emShaderActive) {

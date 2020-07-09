@@ -9,16 +9,89 @@ let cam;
 let fontVCR;
 let pg0, pg1, pg2;
 const textPadding = 20;
-emShaderActive = true;
-ddShaderActive = true;
+emShaderActive = false;
+ddShaderActive = false;
 const hudGreen = [15, 252, 3];
 let textToDisplay = '';
+
+let controlsVisible = false;
+let hideCountdown = 0;
+const maxCountdown = 10;
+
+console.log(encodeURI("hunter//killer"));
+
+const queryString = window.location.search;
+const params = {};
+if (queryString.length > 1) {
+    
+    console.log(queryString);
+
+    var vars = queryString.substring(1).split('&');
+    for (var i=0; i < vars.length; i++) {
+        var pair = vars[i].split('=');
+        params[pair[0]] = decodeURIComponent(pair[1]);
+    }
+    console.log(params);
+}
+const defaultStartingText = "YOUR\nTEXT\nHERE";
+params.startingtext ? setText(params.startingtext) : setText(defaultStartingText);
+
+function showControls(event) {
+    controlWrapperElement = document.getElementById('controlWrapper');
+    controlWrapperElement.hidden = false;
+    controlsVisible = true;
+    console.log('show controls called ' + hideCountdown);
+    var x = setInterval(function() {
+        if (hideCountdown === 0) {
+            clearInterval(x);
+            hideControls()
+        }
+        hideCountdown = hideCountdown - 1;
+    }, 1000);   
+}
+
+function spitOutLink() {
+    const toSpitOut = window.location.origin + '?startingtext=' + encodeURIComponent(textToDisplay);
+    console.log(toSpitOut);
+    const tempElementId = 'tempwhatever'
+    const copyText = document.getElementById('clipboardfield');
+    copyText.hidden = false;
+    copyText.value = toSpitOut;
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+    copyText.hidden = true;
+    /* Alert the copied text */
+    // alert("Copied the text: " + copyText.value);
+    // Removes an element from the document
+    
+}
+
+function hideControls() {
+    controlWrapperElement = document.getElementById('controlWrapper');
+    controlWrapperElement.hidden = true;
+    controlsVisible = false;
+}
+
+document.addEventListener('click', function() {
+    hideCountdown = maxCountdown;
+    if (!controlsVisible) showControls();
+});
+document.addEventListener('keydown', function() {
+    hideCountdown = maxCountdown;
+    if (!controlsVisible) showControls();
+});
+
 function toggleEM() {
     emShaderActive = !emShaderActive;
 }
+
 function toggleDD() {
     ddShaderActive = !ddShaderActive;
 }
+
 function preload() {
     // load the shader
     fontVCR = loadFont('assets/VCR_OSD_MONO_1.001.ttf');
@@ -93,7 +166,7 @@ function radarWidget(target) {
     // target.rectMode(CENTER);
     target.noFill();
     target.stroke(...hudGreen);
-    target.translate(target.width - 110, 110);
+    target.translate(target.width - 110-300, 110);
     for (let radius = radarWidth; radius > 0; radius -= 50) {
         target.circle(0, 0, radius);
     }
@@ -117,7 +190,10 @@ function radarWidget(target) {
     }
     target.pop();
 }
+
 function barWidget(target) {
+    target.push();
+    target.translate(300, 0);
     const maxHeight = 70;
     const barWidth = 20;
     const barPadding = 15;
@@ -130,13 +206,32 @@ function barWidget(target) {
         target.rect(textPadding + index * (barWidth + barPadding), maxHeight - actualHeight + textPadding, barWidth, actualHeight);
     }
     target.rect(textPadding, maxHeight + textPadding + 5, barCount * (barWidth + barPadding) - barPadding, 5);
+    target.pop();
 }
-function setText() {
+
+function setText(inputValue) {
     const inputElement = document.getElementById('textinput');
+    if (inputValue) {
+        inputElement.value = inputValue;
+        return;
+    } 
     console.log(inputElement.value);
     textToDisplay = inputElement.value;
 }
 setText();
+
+function corners(target) {
+    target.push();
+    target.noStroke();
+    target.fill(235, 232, 52);
+    const cornerLength = 50;
+    const cornerThickness = 10;
+    target.rect(textPadding, target.height - cornerLength - textPadding, cornerThickness, cornerLength);
+    target.rect(textPadding, target.height - cornerLength - textPadding + cornerLength - cornerThickness, cornerLength, cornerThickness);
+    target.pop();
+}
+
+
 function draw() {
     let target = pg0;
     pg0.push();
@@ -149,6 +244,7 @@ function draw() {
     // screenText('HERE', pg0, 'RIGHT', 'BOTTOM');
     barWidget(pg0);
     radarWidget(pg0);
+    corners(pg0);
     pg0.pop();
 
     if (emShaderActive !== undefined && emShaderActive) {

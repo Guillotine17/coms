@@ -9,7 +9,7 @@
 
   </head>
   <body style="background-color: black;">
-    <div style="position: absolute; right: 10px; color: chartreuse;">
+    <div id="controlWrapper" style="position: absolute; right: 10px; color: chartreuse;" hidden="true">
       <h1 class="label">CONTROLS</h1>
       <div>
         <button onclick="toggleEM()">
@@ -22,14 +22,14 @@
         </button>
       </div>
       <textArea rows="6" id='textinput' onkeyup="setText()">
-YOUR
-TEXT
-HERE
-
-
       </textArea>
+      <div>
+        <button onclick="spitOutLink()">LINK 2 CLIPBOARD</button>
+      </div>
     </div>
-    
+    <div>
+      <input hidden="true" type="text" id="clipboardfield">
+    </div>
     <script src="sketch.js"></script>
   </body>
 </html>

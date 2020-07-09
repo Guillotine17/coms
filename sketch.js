@@ -35,7 +35,12 @@ if (queryString.length > 1) {
 }
 const defaultStartingText = "YOUR\nTEXT\nHERE";
 params.startingtext ? setText(params.startingtext) : setText(defaultStartingText);
-
+if (params.emshaderactive !== undefined) {
+    emShaderActive = params.emshaderactive === 'true';
+}
+if (params.ddshaderactive !== undefined) {
+    ddShaderActive = params.ddshaderactive === 'true';
+}
 function showControls(event) {
     controlWrapperElement = document.getElementById('controlWrapper');
     controlWrapperElement.hidden = false;
@@ -51,7 +56,9 @@ function showControls(event) {
 }
 
 function spitOutLink() {
-    const toSpitOut = window.location.origin + '?startingtext=' + encodeURIComponent(textToDisplay);
+    let toSpitOut = window.location.origin + window.location.pathname + '?startingtext=' + encodeURIComponent(textToDisplay);
+    toSpitOut += `&ddshaderactive=${encodeURIComponent(ddShaderActive)}`;
+    toSpitOut += `&emshaderactive=${encodeURIComponent(emShaderActive)}`;
     console.log(toSpitOut);
     const tempElementId = 'tempwhatever'
     const copyText = document.getElementById('clipboardfield');
